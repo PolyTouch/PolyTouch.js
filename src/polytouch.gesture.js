@@ -59,7 +59,7 @@
             for (var i=0; i < this._recognizer.length; i++) {
                 fn = this._recognizer[i][evType];
 
-                fn && fn(pointer, eventData, originalEvent);
+                fn && fn.call(this._recognizer[i], pointer, eventData, originalEvent);
             }
         },
 
