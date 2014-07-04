@@ -83,16 +83,19 @@
 
         hasMoved: function (threshold) {
             var downEvt = this.events.down[0],
-                moveEvt;
+                moveEvt, deltaX, deltaY;
 
             if (this.events.move) {
                 for (i=this.events.move.length - 1; i > -1; i--) {
                     moveEvt = this.events.move[i];
+                    deltaX = Math.abs(global.math.distance(downEvt.x, moveEvt.x) / global.ppcm);
+                    deltaY = Math.abs(global.math.distance(downEvt.y, moveEvt.y) / global.ppcm);
 
-                    if ((global.math.distance(downEvt.x, moveEvt.x) / global.ppcm) > threshold ||
-                        (global.math.distance(downEvt.y, moveEvt.y) / global.ppcm) > threshold) {
+                    if ((deltaX) > threshold || (deltaY) > threshold) {
                         return true;
                     }
+
+
                 }
             }
 
