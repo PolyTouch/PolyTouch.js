@@ -123,7 +123,7 @@
         },
 
         clear: function () {
-            for (var i=this.keys.length; i > -1; i--) {
+            for (var i=this.keys.length - 1; i > -1; i--) {
                 delete this.values[this.keys[i]];
             }
 
@@ -132,8 +132,26 @@
     };
 
     global.polyTouch = {
+        ppcm: 28, // px per cm, default = 28
         Pointer: Pointer,
         PointerMap: PointerMap
     };
+
+    // calculate real pixel per cm
+    document.addEventListener('DOMContentLoaded', function () {
+        var div = document.createElement('div');
+        div.style.width = '1cm';
+
+        var body = document.getElementsByTagName('body')[0];
+        body.appendChild(div);
+
+        var ppin = document.defaultView
+            .getComputedStyle(div, null)
+            .getPropertyValue('width');
+
+        body.removeChild(div);
+
+        global.polyTouch.ppcm = parseFloat(ppin);
+    });
 
 }(window));

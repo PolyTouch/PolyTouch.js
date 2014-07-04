@@ -27,35 +27,39 @@
     GestureRecognizer.prototype = {
 
         _handleEvent: function (ev) {
-            var data;
+            var data, pointer, evType = ev.type.substring(7);
 
-            switch (ev.type) {
-                case 'pointerdown':
-                    data = pm.set(ev.pointerId, ev);
+            switch (evType) {
+                case 'down':
+                    data = this.pointer.set(ev.pointerId, ev);
                     break;
-                case 'pointermove':
-                    if (pm.has(ev.pointerId)) {
-                        data = pm.set(ev.pointerId, ev);
+                case 'move':
+                case 'cancel':
+                case 'up':
+                    if (this.pointer.has(ev.pointerId)) {
+                        data = this.pointer.set(ev.pointerId, ev);
                     }
-                    break;
-                case 'pointercancel':
-                case 'pointerup':
-                    data = pm.remove(ev.pointerId);
                     break;
             }
 
-            if (data) {
-                this._dispatch(data, ev);
+            pointer = this.pointer.get(ev.pointerId);
+
+            if (data && pointer) {
+                this._dispatch(evType, pointer, data, ev);
+            }
+
+            if (evType === 'cancel' || evType === 'up') {
+                this.pointer.remove(ev.pointerId);
             }
         },
 
-        _dispatch: function (eventData, originalEvent) {
+        _dispatch: function (evType, pointer, eventData, originalEvent) {
             var fn;
 
             for (var i=0; i < this._recognizer.length; i++) {
-                fn = this._recognizer[i][eventData.type];
+                fn = this._recognizer[i][evType];
 
-                fn && fn(eventData, originalEvent);
+                fn && fn(pointer, eventData, originalEvent);
             }
         },
 
@@ -63,5 +67,7 @@
             this._recognizer.push(def);
         }
     };
+
+    global.gesture = new GestureRecognizer();
 
 }(window.polyTouch));
