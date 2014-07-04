@@ -11,6 +11,42 @@
  */
 (function (global) {
 
+    var PROPS = [
+        'altKey',
+        'bubbles',
+        'button',
+        'cancelable',
+        'ctrlKey',
+        'clientX',
+        'clientY',
+        'detail',
+        'fromElement',
+        'isPrimary',
+        'layerX',
+        'layerY',
+        'metaKey',
+        'offsetX',
+        'offsetY',
+        'pageX',
+        'pageY',
+        'pointerId',
+        'pointerType',
+        'pressure',
+        'relatedTarget',
+        'screenX',
+        'screenY',
+        'shiftKey',
+        'target',
+        'tiltX',
+        'tiltY',
+        'timeStamp',
+        'type',
+        'view',
+        'x',
+        'y'
+    ];
+
+
     function Pointer(id) {
         this.id = id;
         this.events = {};
@@ -19,10 +55,14 @@
     Pointer.prototype = {
 
         _sanitizeEvent: function (event) {
-            // todo sanitize data from events
-            return {
-                pointerId: event.pointerId
-            };
+            var p, data = {};
+
+            for(var i = 0; i < PROPS.length; i++) {
+                p = PROPS[i];
+                data[p] = event[p];
+            }
+
+            return data;
         },
 
         _add: function (evType, event) {
