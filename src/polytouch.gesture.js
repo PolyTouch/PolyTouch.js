@@ -63,6 +63,16 @@
             }
         },
 
+        trigger: function (target, type, data) {
+            var ev = new CustomEvent(type, {
+                detail: data || {},
+                bubbles: true,
+                cancelable: true
+            });
+
+            target.dispatchEvent(ev);
+        },
+
         register: function (def) {
             this._recognizer.push(def);
         }
