@@ -105,11 +105,17 @@
         },
 
         remove: function (id) {
-            var idx = this.keys.indexOf(id);
+            var idx = this.keys.indexOf(id),
+                cache;
+
             if (idx > -1) {
+                cache = this.values[id];
+
                 this.keys.splice(idx, 1);
                 delete this.values[id];
             }
+
+            return cache;
         },
 
         has: function (id) {

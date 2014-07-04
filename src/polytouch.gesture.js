@@ -11,29 +11,57 @@
  */
 (function (global) {
 
-    var pm = new polyTouch.PointerMap();
+    function GestureRecognizer() {
+        this._recognizer = [];
+        this.pointer = new polyTouch.PointerMap();
 
-    function handleDown(ev) {
-        var ret = pm.set(ev.pointerId, ev);
+        this._handleEvent = this._handleEvent.bind(this);
+
+        document.addEventListener('pointerdown', this._handleEvent, false);
+        document.addEventListener('pointermove', this._handleEvent, false);
+        document.addEventListener('pointercancel', this._handleEvent, false);
+        document.addEventListener('pointerup', this._handleEvent, false);
+
     }
 
-    function handleMove(ev) {
-        if (pm.has(ev.pointerId)) {
-            pm.set(ev.pointerId, ev);
+    GestureRecognizer.prototype = {
+
+        _handleEvent: function (ev) {
+            var data;
+
+            switch (ev.type) {
+                case 'pointerdown':
+                    data = pm.set(ev.pointerId, ev);
+                    break;
+                case 'pointermove':
+                    if (pm.has(ev.pointerId)) {
+                        data = pm.set(ev.pointerId, ev);
+                    }
+                    break;
+                case 'pointercancel':
+                case 'pointerup':
+                    data = pm.remove(ev.pointerId);
+                    break;
+            }
+
+            if (data) {
+                this._dispatch(data, ev);
+            }
+        },
+
+        _dispatch: function (eventData, originalEvent) {
+            var fn;
+
+            for (var i=0; i < this._recognizer.length; i++) {
+                fn = this._recognizer[i][eventData.type];
+
+                fn && fn(eventData, originalEvent);
+            }
+        },
+
+        register: function (def) {
+            this._recognizer.push(def);
         }
-    }
-
-    function handleUp(ev) {
-        pm.remove(ev.pointerId);
-    }
-
-    document.addEventListener('pointerdown', handleDown, false);
-    document.addEventListener('pointermove', handleMove, false);
-    document.addEventListener('pointercancel', handleUp, false);
-    document.addEventListener('pointerup', handleUp, false);
-
-    global.gesture = {
-        pointermap: pm
     };
 
 }(window.polyTouch));
