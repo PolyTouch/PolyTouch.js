@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+<title>Polytouch Demo</title>
+<script type="text/javascript" src="pointerevents.js"></script>
+<script type="text/javascript" src="../src/polytouch.js"></script>
+<style>
+    body {
+        /* On modern browsers, prevent the whole page to bounce */
+        overflow: hidden;
+        margin: 0;
+    }
+
+    #viewport {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        bottom: 25px;
+        left: 25px;
+        background: #ccc;
+    }
+
+    /* just improvements to disable default browser behavior */
+    #viewport  {
+        /* Prevent native touch events on Windows */
+        -ms-touch-action: none;
+
+        /* Prevent the callout on tap-hold and text selection */
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        /* Prevent text resize on orientation change, useful for web-apps */
+        -webkit-text-size-adjust: none;
+        -moz-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+        -o-text-size-adjust: none;
+        text-size-adjust: none;
+
+        /* Prevent elements to be highlighted on tap */
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+</style>
+
+</head>
+<body>
+
+<div id="viewport" touch-action="none">
+
+</div>
+<script type="text/javascript">
+
+    var elem = document.getElementById('viewport');
+
+    var pm = new polyTouch.PointerMap();
+
+    function addPointer(ev) {
+        var ret = pm.set(ev.pointerId, ev);
+        console.log(ret);
+    }
+
+    function plotEvent (ev) {
+        console.log(ev.type, ev.detail);
+    }
+
+    elem.addEventListener('pointerdown', addPointer, false);
+    elem.addEventListener('pointermove', addPointer, false);
+    elem.addEventListener('pointercancel', addPointer, false);
+    elem.addEventListener('pointerup', addPointer, false);
+
+</script>
+
+</body>
+</html>

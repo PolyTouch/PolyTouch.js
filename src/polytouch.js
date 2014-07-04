@@ -39,21 +39,25 @@
         },
 
         add: function (event) {
+            var fn;
+
             switch (event.type) {
                 case 'pointerdown':
-                    this.start(event);
+                    fn = 'down';
                     break;
                 case 'pointermove':
-                    this.move(event);
+                    fn = 'move';
                     break;
                 case 'pointercancel':
                 case 'pointerup':
-                    this.end(event);
+                    fn = 'up';
                     break;
             }
+
+            return this[fn](event);
         },
 
-        start: function (event) {
+        down: function (event) {
             return (this.start = this._add(event));
         },
 
@@ -61,7 +65,7 @@
             return (this.lastMove = this._add(event));
         },
 
-        end: function (event) {
+        up: function (event) {
             return (this.end = this._add(event));
         },
     };
@@ -81,7 +85,7 @@
                 this.values[id] = new Pointer(id);
             }
 
-            this.values[id].add(event);
+            return this.values[id].add(event);
         },
 
         get: function (id) {
