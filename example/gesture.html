@@ -7,7 +7,9 @@
 <title>Polytouch Demo</title>
 <script type="text/javascript" src="pointerevents.js"></script>
 <script type="text/javascript" src="../src/polytouch.js"></script>
+<script type="text/javascript" src="../src/polytouch.math.js"></script>
 <script type="text/javascript" src="../src/polytouch.gesture.js"></script>
+<script type="text/javascript" src="../src/polytouch.gesture.tap.js"></script>
 <style>
     body {
         /* On modern browsers, prevent the whole page to bounce */
@@ -19,7 +21,7 @@
         position: absolute;
         top: 25px;
         right: 25px;
-        bottom: 25px;
+        bottom: 150px;
         left: 25px;
         background: #ccc;
     }
@@ -46,6 +48,16 @@
         /* Prevent elements to be highlighted on tap */
         -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
+
+    #console {
+        position: absolute;
+        height: 100px;
+        bottom: 25px;
+        left: 25px;
+        right: 25px;
+        background: #ccc;
+        overflow: scroll;
+    }
 </style>
 
 </head>
@@ -54,10 +66,19 @@
 <div id="viewport" touch-action="none">
 
 </div>
+<div id="console"></div>
 <script type="text/javascript">
+    function plotEvent(ev) {
+        var con, out;
 
+        con = document.getElementById('console');
+        out = document.createElement('div');
 
+        out.innerText = ev.type;
+        con.insertBefore(out, con.firstChild);
+    }
 
+    document.addEventListener('tap', plotEvent, false);
 </script>
 
 </body>
