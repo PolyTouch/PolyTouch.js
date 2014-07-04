@@ -75,6 +75,21 @@
 
         register: function (def) {
             this._recognizer.push(def);
+        },
+
+        getPointerOnTarget: function (target) {
+            var ptn, i, ret = [];
+
+            for (i=this.pointer.keys.length - 1; i > -1; i--) {
+                ptn = this.pointer.values[global.gesture.pointer.keys[i]];
+                ptnArr = ptn.events.move || ptn.events.down;
+
+                if (ptnArr[ptnArr.length-1].target === target) {
+                    ret.push(ptn);
+                }
+            }
+
+            return ret;
         }
     };
 

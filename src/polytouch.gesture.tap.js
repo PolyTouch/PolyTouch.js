@@ -36,16 +36,8 @@
                 }
 
                 // check for multiple pointers => not a tap
-                for (i=global.gesture.pointer.keys.length - 1; i > -1; i--) {
-                    ptn = global.gesture.pointer.values[global.gesture.pointer.keys[i]];
-
-                    if (ptn !== pointer) {
-                        ptnArr = ptn.events.move || ptn.events.down;
-
-                        if (ptnArr[ptnArr.length-1].target === downEvt.target) {
-                            return;
-                        }
-                    }
+                if (global.gesture.getPointerOnTarget(downEvt.target).length > 1) {
+                    return;
                 }
 
                 // check for unallowed movement
@@ -60,7 +52,11 @@
                     }
                 }
 
-                global.gesture.trigger(eventData.target, 'tap', {});
+                global.gesture.trigger(eventData.target, 'tap', {
+                    // todo add values
+                });
+
+                // todo check for double tap
             }
         }
     };
