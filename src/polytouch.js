@@ -13,12 +13,7 @@
 
     function Pointer(id) {
         this.id = id;
-        this.events = [];
-
-        // references to key events
-        this.start = null;
-        this.lastMove = null;
-        this.end = null;
+        this.events = {};
     }
 
     Pointer.prototype = {
@@ -30,44 +25,21 @@
             };
         },
 
-        _add: function (event) {
+        _add: function (evType, event) {
             var data = this._sanitizeEvent(event);
 
-            this.events.push(data);
+            this.events[evType].push(data);
 
-            return data; // for the reference
+            return data;
         },
 
         add: function (event) {
-            var fn;
+            var evType = event.type.substring(7);
 
-            switch (event.type) {
-                case 'pointerdown':
-                    fn = 'down';
-                    break;
-                case 'pointermove':
-                    fn = 'move';
-                    break;
-                case 'pointercancel':
-                case 'pointerup':
-                    fn = 'up';
-                    break;
-            }
+            this.events[evType] = this.events[evType] || [];
 
-            return this[fn](event);
-        },
-
-        down: function (event) {
-            return (this.start = this._add(event));
-        },
-
-        move: function (event) {
-            return (this.lastMove = this._add(event));
-        },
-
-        up: function (event) {
-            return (this.end = this._add(event));
-        },
+            return this._add(evType, event);
+        }
     };
 
     function PointerMap() {
