@@ -1,0 +1,27 @@
+{
+    "name": "PolyTouch",
+    "version": "1.0.0",
+    "description": "",
+    "homepage": "http://damien.antipa.at",
+    "author": "Damien Antipa",
+    "copyright": "Adobe Systems Incorporated",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/PolyTouch/PolyTouch.js.git"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.0",
+        "grunt-contrib-uglify": "~0.4.0",
+        "grunt-contrib-jshint": "~0.10.0",
+        "grunt-replace": "~0.7.0",
+        "grunt-contrib-yuidoc": "~0.5.2"
+    },
+    "licenses": "Apache License v2",
+    "main": "polytouch.js",
+    "scripts": {
+        "build": "npm install && grunt"
+    },
+    "engines": {
+        "node": ">=0.10.0"
+    }
+}
