@@ -8,8 +8,11 @@
 <script type="text/javascript" src="pointerevents.js"></script>
 <script type="text/javascript" src="../src/polytouch.js"></script>
 <script type="text/javascript" src="../src/polytouch.math.js"></script>
+<script type="text/javascript" src="../src/polytouch.pointer.js"></script>
+<script type="text/javascript" src="../src/polytouch.pointermap.js"></script>
 <script type="text/javascript" src="../src/polytouch.gesture.js"></script>
 <script type="text/javascript" src="../src/polytouch.gesture.tap.js"></script>
+<script type="text/javascript" src="../src/polytouch.gesture.hold.js"></script>
 <style>
     body {
         /* On modern browsers, prevent the whole page to bounce */
@@ -79,6 +82,7 @@
     }
 
     document.addEventListener('tap', plotEvent, false);
+    document.addEventListener('hold', plotEvent, false);
 </script>
 
 </body>
