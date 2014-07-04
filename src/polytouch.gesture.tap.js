@@ -22,34 +22,15 @@
 
         up: function (pointer, eventData, originalEvent) {
             var downEvt = pointer.events.down[0],
-                moveEvt, ptn, ptnArr, i;
+                moveEvt, pi;
 
             if (downEvt) {
-                // check for max time
-                if (global.math.duration(downEvt.timeStamp, eventData.timeStamp) > TIMEOUT) {
+
+                if ((global.math.duration(downEvt.timeStamp, eventData.timeStamp) > TIMEOUT) || // check for max time
+                    (eventData.target !== downEvt.target) || // same start/end target
+                    (global.gesture.getPointerOnTarget(downEvt.target).length > 1) || // check for multiple pointers => not a tap
+                    (pointer.hasMoved(THRESHOLD))) { // check for unallowed movement
                     return;
-                }
-
-                // same start/end target
-                if (eventData.target !== downEvt.target) {
-                    return;
-                }
-
-                // check for multiple pointers => not a tap
-                if (global.gesture.getPointerOnTarget(downEvt.target).length > 1) {
-                    return;
-                }
-
-                // check for unallowed movement
-                if (pointer.events.move) {
-                    for (i=pointer.events.move.length - 1; i > -1; i--) {
-                        moveEvt = pointer.events.move[i];
-
-                        if ((global.math.distance(downEvt.x, moveEvt.x) / global.ppcm) > THRESHOLD ||
-                            (global.math.distance(downEvt.y, moveEvt.y) / global.ppcm) > THRESHOLD) {
-                            return;
-                        }
-                    }
                 }
 
                 global.gesture.trigger(eventData.target, 'tap', {
