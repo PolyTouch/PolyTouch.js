@@ -11,6 +11,50 @@
  */
 (function (global) {
 
+    var DEFAULT_PROPERTIES = [
+        'altKey',
+        'button',
+        'clientX',
+        'clientY',
+        'isPrimary',
+        'layerX',
+        'layerY',
+        'metaKey',
+        'offsetX',
+        'offsetY',
+        'pageX',
+        'pageY',
+        'pointerId',
+        'pointerType',
+        'pressure',
+        'screenX',
+        'screenY',
+        'shiftKey',
+        'target',
+        'tiltX',
+        'tiltY',
+        'type',
+        'view',
+        'x',
+        'y'
+    ];
+
+    function GestureEvent(type, props) {
+        var ev = document.createEvent('Event'),
+            p = props || {}, keys, k;
+
+        ev.initEvent(type, p.bubbles != null ? p.bubbles : true, p.cancelable != null ? p.cancelable : true);
+
+        // copy properties
+        keys = Object.keys(p);
+        for (var i = 0; i < keys.length; i++) {
+            k = keys[i];
+            ev[k] = p[k];
+        }
+
+        return ev;
+    }
+
     function GestureRecognizer() {
         this._recognizer = [];
         this.pointer = new polyTouch.PointerMap();
@@ -25,6 +69,8 @@
     }
 
     GestureRecognizer.prototype = {
+
+        DEFAULT_PROPERTIES: DEFAULT_PROPERTIES,
 
         _handleEvent: function (ev) {
             var data, pointer, evType = ev.type.substring(7);
@@ -63,12 +109,19 @@
             }
         },
 
+        cloneProperties: function (origin, props) {
+            var p, data = {};
+
+            for(var i = 0; i < props.length; i++) {
+                p = props[i];
+                data[p] = origin[p];
+            }
+
+            return data;
+        },
+
         trigger: function (target, type, data) {
-            var ev = new CustomEvent(type, {
-                detail: data || {},
-                bubbles: true,
-                cancelable: true
-            });
+            var ev = GestureEvent(type, data);
 
             target.dispatchEvent(ev);
         },
