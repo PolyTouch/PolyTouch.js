@@ -40,6 +40,7 @@
         'tiltX',
         'tiltY',
         'timeStamp',
+        'toElement',
         'type',
         'view',
         'x',
