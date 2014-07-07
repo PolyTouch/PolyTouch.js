@@ -22,7 +22,7 @@
 
         up: function (pointer, eventData, originalEvent) {
             var downEvt = pointer.events.down[0],
-                moveEvt, pi;
+                moveEvt, props;
 
             if (downEvt) {
 
@@ -33,9 +33,9 @@
                     return;
                 }
 
-                global.gesture.trigger(eventData.target, 'tap', {
-                    // todo add values
-                });
+                props = global.gesture.cloneProperties(downEvt, global.gesture.DEFAULT_PROPERTIES);
+
+                global.gesture.trigger(eventData.target, 'tap', props);
 
                 // todo check for double tap
             }

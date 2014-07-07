@@ -11,7 +11,7 @@
  */
 (function (global) {
 
-    var HOLD_TIME = 800,
+    var HOLD_TIME = 600,
         THRESHOLD = 0.5; //cm
 
     var hold = {
@@ -22,7 +22,7 @@
 
         detect: function (pointerId) {
             var ptn = global.gesture.pointer.get(pointerId),
-                downEvt;
+                downEvt, props;
 
             if (ptn) { // pointer was still on the screen
                 downEvt = ptn.events.down[0];
@@ -32,9 +32,10 @@
                     return;
                 }
 
-                global.gesture.trigger(downEvt.target, 'hold', {
-                    // todo add values
-                });
+
+                props = global.gesture.cloneProperties(downEvt, global.gesture.DEFAULT_PROPERTIES);
+
+                global.gesture.trigger(downEvt.target, 'hold', props);
             }
         }
     };
