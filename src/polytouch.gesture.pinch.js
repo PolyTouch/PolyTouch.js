@@ -11,6 +11,15 @@
  */
 (function (global) {
 
+    var PROPS = [
+        'altKey',
+        'metaKey',
+        'pointerType',
+        'shiftKey',
+        'target',
+        'view'
+    ];
+
     function scale(s, e) {
         return (Math.sqrt(Math.pow(
                 e[0].x - e[1].x, 2) + Math.pow(e[0].y - e[1].y, 2)
@@ -40,6 +49,7 @@
                 // they may move outside of the target later on
                 active[p[0].id] = {
                     start: p[0].position(),
+                    primary: true,
                     related: p[1].id,
                     target: eventData.target,
                     hasStarted: false
@@ -55,7 +65,7 @@
 
         move: function (pointer, eventData, originalEvent) {
             var cur = active[pointer.id],
-                rel, relPointer, relPosition, props = {};
+                rel, relPointer, relPosition, props, param;
 
             if (cur) {
                 rel = active[cur.related];
@@ -76,10 +86,16 @@
                 relPointer = global.gesture.pointer.get(cur.related);
                 relPosition = relPointer.position();
 
-                props.scale = scale([cur.start, rel.start], [eventData, relPosition]);
-                props.rotation = rotation([cur.start, rel.start], [eventData, relPosition]);
+                param = cur.primary ? [[cur.start, rel.start], [eventData, relPosition]]:
+                    [[rel.start, cur.start], [relPosition, eventData]];
 
-                // todo calc
+                props = global.gesture.cloneProperties(eventData, PROPS);
+                props.target = cur.target;
+                props.detail = {
+                    scale: scale.apply(this, param),
+                    rotation: rotation.apply(this, param)
+                };
+
                 global.gesture.trigger(cur.target, 'pinch', props);
             }
         },

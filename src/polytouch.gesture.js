@@ -33,7 +33,6 @@
         'target',
         'tiltX',
         'tiltY',
-        'type',
         'view',
         'x',
         'y'
