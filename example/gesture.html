@@ -13,6 +13,7 @@
 <script type="text/javascript" src="../src/polytouch.gesture.js"></script>
 <script type="text/javascript" src="../src/polytouch.gesture.tap.js"></script>
 <script type="text/javascript" src="../src/polytouch.gesture.hold.js"></script>
+<script type="text/javascript" src="../src/polytouch.gesture.pinch.js"></script>
 <style>
     body {
         /* On modern browsers, prevent the whole page to bounce */
@@ -83,6 +84,9 @@
 
     document.addEventListener('tap', plotEvent, false);
     document.addEventListener('hold', plotEvent, false);
+    document.addEventListener('pinchstart', plotEvent, false);
+    document.addEventListener('pinch', plotEvent, false);
+    document.addEventListener('pinchend', plotEvent, false);
 </script>
 
 </body>
