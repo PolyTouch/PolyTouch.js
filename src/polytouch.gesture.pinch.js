@@ -1,4 +1,4 @@
-/*!
+/*
  * @@name @@version
  * @@repository.url
  *
@@ -73,7 +73,7 @@
                         cur.hasStarted = true;
                         rel.hasStarted = true;
 
-                        // TODO improve positioning data
+                        // TODO calculate center point
                         props = global.gesture.cloneProperties(eventData, global.gesture.DEFAULT_PROPERTIES);
                         global.gesture.trigger(cur.target, 'pinchstart', props);
                     } else {

@@ -3,13 +3,27 @@ module.exports = function(grunt) {
     var pkg = require('./package.json'),
         buildTime =  new Date();
 
+    var srcFiles = [
+        'polytouch.js',
+        'polytouch.math.js',
+        'polytouch.pointer.js',
+        'polytouch.pointermap.js',
+        'polytouch.gesture.js',
+        'polytouch.gesture.tap.js',
+        'polytouch.gesture.hold.js',
+        'polytouch.gesture.pinch.js'
+    ];
+
     grunt.initConfig({
         outputName: 'polytouch',
         replace: {
             build: {
                 files: [{
-                    src: ['src/polytouch.js'],
-                    dest: '<%= outputName %>.js'
+                    cwd: 'src/',
+                    src: srcFiles,
+                    dest: 'build/',
+                    expand: true,
+                    flatten: true
                 }],
                 options: {
                     patterns: [{
