@@ -21,11 +21,9 @@
     ];
 
     function scale(s, e) {
-        return (Math.sqrt(Math.pow(
-                e[0].x - e[1].x, 2) + Math.pow(e[0].y - e[1].y, 2)
-            ) / Math.sqrt(Math.pow(
-                s[0].x - s[1].x, 2) + Math.pow(s[0].y - s[1].y, 2)
-            )).toFixed(2);
+        return (Math.sqrt(Math.pow(e[0].x - e[1].x, 2) + Math.pow(e[0].y - e[1].y, 2)) /
+                Math.sqrt(Math.pow(s[0].x - s[1].x, 2) + Math.pow(s[0].y - s[1].y, 2))
+            ).toFixed(2);
     }
 
     function rotation(s, e) {
@@ -91,6 +89,7 @@
 
                 props = global.gesture.cloneProperties(eventData, PROPS);
                 props.target = cur.target;
+                // TODO add center as x/y, pageX, etc.
                 props.detail = {
                     scale: scale.apply(this, param),
                     rotation: rotation.apply(this, param)
