@@ -48,7 +48,7 @@
                 rel, props;
 
             if (cur) {
-                rel = cur.related;
+                rel = active[cur.related];
 
                 if (!cur.hasStarted) {
                     if (pointer.hasMoved(THRESHOLD, cur.start)) { // first move
@@ -75,11 +75,15 @@
 
             // cancel if an active pointer gets removed
             if (cur) {
+                if (cur.hasStarted) {
+                    props = global.gesture.cloneProperties(eventData, global.gesture.DEFAULT_PROPERTIES);
+                    global.gesture.trigger(cur.target, 'pinchend', props);
+                }
+
                 delete active[cur.related];
                 delete active[pointer.id];
 
-                props = global.gesture.cloneProperties(eventData, global.gesture.DEFAULT_PROPERTIES);
-                global.gesture.trigger(cur.target, 'pinchend', props);
+
             }
         }
     };
