@@ -16,9 +16,7 @@
 
     var tap = {
 
-        cancel: function (pointer, eventData, originalEvent) {
-            this.up.apply(this, arguments);
-        },
+        cancel: this.up,
 
         up: function (pointer, eventData, originalEvent) {
             var downEvt = pointer.events.down[0],
