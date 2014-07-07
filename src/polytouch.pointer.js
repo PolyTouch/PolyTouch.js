@@ -82,6 +82,12 @@
             return this._add(evType, event);
         },
 
+        position: function () {
+            return this.events.move ?
+                this.events.move[this.events.move.length-1]:
+                this.events.down[0];
+        },
+
         hasMoved: function (threshold, refEvt) {
             var downEvt = refEvt || this.events.down[0],
                 moveEvt, deltaX, deltaY;
