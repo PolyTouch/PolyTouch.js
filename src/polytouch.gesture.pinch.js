@@ -38,7 +38,7 @@
 
     var pinch = {
 
-        down: function (pointer, eventData, originalEvent) {
+        down: function (pointer, eventData) {
             var p = global.gesture.getPointerOnTarget(eventData.target);
 
             // there have to be exactly 2 pointers on the target
@@ -61,7 +61,7 @@
             }
         },
 
-        move: function (pointer, eventData, originalEvent) {
+        move: function (pointer, eventData) {
             var cur = active[pointer.id],
                 rel, relPointer, relPosition, props, param;
 
@@ -101,8 +101,9 @@
 
         cancel: this.up,
 
-        up: function (pointer, eventData, originalEvent) {
-            var cur = active[pointer.id];
+        up: function (pointer, eventData) {
+            var cur = active[pointer.id],
+                props;
 
             // cancel if an active pointer gets removed
             if (cur) {

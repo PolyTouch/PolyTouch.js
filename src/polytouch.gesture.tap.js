@@ -18,9 +18,9 @@
 
         cancel: this.up,
 
-        up: function (pointer, eventData, originalEvent) {
+        up: function (pointer, eventData) {
             var downEvt = pointer.events.down[0],
-                moveEvt, props;
+                props;
 
             if (downEvt) {
 

@@ -56,7 +56,7 @@
 
     function GestureRecognizer() {
         this._recognizer = [];
-        this.pointer = new polyTouch.PointerMap();
+        this.pointer = new global.PointerMap();
 
         this._handleEvent = this._handleEvent.bind(this);
 
@@ -130,7 +130,7 @@
         },
 
         getPointerOnTarget: function (target) {
-            var ptn, i, ret = [];
+            var ptn, ptnArr, i, ret = [];
 
             for (i=this.pointer.keys.length - 1; i > -1; i--) {
                 ptn = this.pointer.values[global.gesture.pointer.keys[i]];

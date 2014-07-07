@@ -18,12 +18,12 @@
 
     var hold = {
 
-        down: function (pointer, eventData, originalEvent) {
+        down: function (pointer) {
             active[pointer.id] = setTimeout(this.detect.bind(this, pointer.id), HOLD_TIME);
         },
 
-        up: function (pointer, eventData, originalEvent) {
-            var cur = active[pointer.id]
+        up: function (pointer) {
+            var cur = active[pointer.id];
             if (cur) { // the user may remove the pointer and add it again -> wrong event
                 clearTimeout(cur);
                 delete active[pointer.id];
