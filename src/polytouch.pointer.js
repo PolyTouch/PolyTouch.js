@@ -82,8 +82,8 @@
             return this._add(evType, event);
         },
 
-        hasMoved: function (threshold) {
-            var downEvt = this.events.down[0],
+        hasMoved: function (threshold, refEvt) {
+            var downEvt = refEvt || this.events.down[0],
                 moveEvt, deltaX, deltaY;
 
             if (this.events.move) {
