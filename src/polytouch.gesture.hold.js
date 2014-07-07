@@ -14,10 +14,20 @@
     var HOLD_TIME = 600,
         THRESHOLD = 0.5; //cm
 
+    var active = {};
+
     var hold = {
 
         down: function (pointer, eventData, originalEvent) {
-            setTimeout(this.detect.bind(this, pointer.id), HOLD_TIME);
+            active[pointer.id] = setTimeout(this.detect.bind(this, pointer.id), HOLD_TIME);
+        },
+
+        up: function (pointer, eventData, originalEvent) {
+            var cur = active[pointer.id]
+            if (cur) { // the user may remove the pointer and add it again -> wrong event
+                clearTimeout(cur);
+                delete active[pointer.id];
+            }
         },
 
         detect: function (pointerId) {
@@ -25,6 +35,7 @@
                 downEvt, props;
 
             if (ptn) { // pointer was still on the screen
+                delete active[pointerId];
                 downEvt = ptn.events.down[0];
 
                 if ((global.gesture.getPointerOnTarget(downEvt.target).length > 1) || // check for multiple pointers => not a tap
